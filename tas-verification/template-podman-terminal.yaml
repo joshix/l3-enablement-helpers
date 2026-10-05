@@ -138,10 +138,10 @@ spec:
       labels:
         app: ttyd-admin-terminal
       annotations:
-        # terminal-admin is bound to cluster-admin, so it may use every SCC on the cluster.
-        # SCC admission then picks one by sort order, not by the RoleBinding below, and on a
-        # CNV cluster it lands on linux-bridge -- which forces readOnlyRootFilesystem: true.
-        # Pin the intended SCC so the choice is deterministic across clusters.
+        # Pin intended SCC.
+        # terminal-admin is bound to cluster-admin, sees every cluster SCC.
+        # SCC admission picks by sort order, not by RoleBinding. Theory:
+        # On CNV it lands on linux-bridge which has readOnlyRootFilesystem.
         openshift.io/required-scc: privileged
     spec:
       serviceAccountName: terminal-admin
