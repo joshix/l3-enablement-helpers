@@ -84,7 +84,7 @@ tas_initialize() {
         print_error "Could not retrieve Keycloak route from keycloak namespace"
         exit 1
     fi
-    local OIDC_ISSUER_URL="https://${KEYCLOAK_HOST}/realms/backstage"
+    local OIDC_ISSUER_URL="https://${KEYCLOAK_HOST}/realms/tssc-iam"
     
     print_status "Retrieving Fulcio URL..."
     local COSIGN_FULCIO_URL=$(oc get fulcio -o jsonpath='{.items[0].status.url}' -n trusted-artifact-signer 2>/dev/null)
