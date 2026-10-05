@@ -137,6 +137,12 @@ spec:
     metadata:
       labels:
         app: ttyd-admin-terminal
+      annotations:
+        # terminal-admin is bound to cluster-admin, so it may use every SCC on the cluster.
+        # SCC admission then picks one by sort order, not by the RoleBinding below, and on a
+        # CNV cluster it lands on linux-bridge -- which forces readOnlyRootFilesystem: true.
+        # Pin the intended SCC so the choice is deterministic across clusters.
+        openshift.io/required-scc: privileged
     spec:
       serviceAccountName: terminal-admin
       automountServiceAccountToken: true
@@ -193,6 +199,10 @@ spec:
         securityContext:
           privileged: true
           runAsUser: 1001
+          # setup-tas-tools.sh downloads into /tmp and installs into /home/student/clitools,
+          # so the root filesystem has to be writable. Left unset, the admitting SCC's
+          # default wins and both paths are read-only.
+          readOnlyRootFilesystem: false
         volumeMounts:
         - name: workspace
           mountPath: /workspace
