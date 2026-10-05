@@ -190,7 +190,7 @@ echo "================================"
 
 
 # Construct the ISSUER_URL
-ISSUER_URL="${KEYCLOAK_URL}/realms/trusted-artifact-signer"
+ISSUER_URL="${KEYCLOAK_URL}/realms/tssc-iam"
 
 # Set the client ID
 CLIENT_ID="trusted-artifact-signer"
