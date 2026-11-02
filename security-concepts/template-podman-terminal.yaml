@@ -108,6 +108,14 @@ data:
     # Email domains to allow (use * for any)
     email_domains = ["*"]
 
+    # Accept unverified emails. RHADS provisions `admin` with emailVerified=false,
+    # so oauth2-proxy 500s its callback: "email in id_token (admin@apps.<domain>)
+    # isn't verified". Keycloak authenticates fine - oauth2-proxy is the only
+    # consumer that checks. Learner accounts (user1...) verify, so admin alone
+    # is locked out of the terminal.
+    # RETIRE when agnosticd#9946 merges; it fixes the flag at the Keycloak source.
+    insecure_oidc_allow_unverified_email = true
+
     # Logging
     standard_logging = true
     request_logging = true
